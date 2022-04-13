@@ -13,12 +13,6 @@ const questionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  answer: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Answer",
-    },
-  ],
 });
 
 questionSchema.pre(/^find/, function (next) {
