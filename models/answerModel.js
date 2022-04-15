@@ -40,7 +40,7 @@ answerSchema.virtual("comments", {
 answerSchema.pre(/^find/, function (next) {
   this.populate({
     path: "likes",
-    select: "_id userName",
+    select: "_id name",
   })
     .populate({
       path: "user",
@@ -48,7 +48,7 @@ answerSchema.pre(/^find/, function (next) {
     })
     .populate({
       path: "question",
-      select: "_id question user",
+      select: "_id question -user",
     });
   next();
 });
