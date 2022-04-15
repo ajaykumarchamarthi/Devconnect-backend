@@ -20,6 +20,9 @@ commentSchema.pre(/^find/, function (next) {
   this.populate({
     path: "answer",
     select: "_id answer",
+  }).populate({
+    path: "user",
+    select: "-_id -password -__v",
   });
   next();
 });

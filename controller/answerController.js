@@ -19,7 +19,10 @@ exports.postAnswer = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllAnswers = catchAsync(async (req, res, next) => {
-  const answers = await Answer.find().populate("comments");
+  const answers = await Answer.find().populate({
+    path: "comments",
+    select: "comment user",
+  });
 
   res.status(200).json({
     status: "Success",
