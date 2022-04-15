@@ -19,7 +19,7 @@ exports.postAnswer = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllAnswers = catchAsync(async (req, res, next) => {
-  const answers = await Answer.find();
+  const answers = await Answer.find().populate("comments");
 
   res.status(200).json({
     status: "Success",

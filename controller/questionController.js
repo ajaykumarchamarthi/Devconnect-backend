@@ -2,7 +2,7 @@ const Question = require("./../models/questionModel");
 const catchAsync = require("./../utils/catchAsync");
 
 exports.postQuestion = catchAsync(async (req, res, next) => {
-  const { question, userId } = req.body;
+  const { question, userId, tag } = req.body;
   const newQuestion = await Question.create({
     question,
     user: userId,
@@ -17,7 +17,10 @@ exports.postQuestion = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllQuestions = catchAsync(async (req, res, next) => {
-  const questions = await Question.find();
+  const questions = await Question.find().populate({
+    path: "answers",
+    select: "likes answer -question",
+  });
   res.status(200).json({
     status: "success",
     data: {
