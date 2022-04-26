@@ -2,7 +2,7 @@ const Question = require("./../models/questionModel");
 const catchAsync = require("./../utils/catchAsync");
 
 exports.postQuestion = catchAsync(async (req, res, next) => {
-  const { question, userId, tag } = req.body;
+  const { question, userId, tag, questionExplanation } = req.body;
   const newQuestion = await Question.create({
     question,
     user: userId,
