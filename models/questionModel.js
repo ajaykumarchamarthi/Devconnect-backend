@@ -6,6 +6,9 @@ const questionSchema = new mongoose.Schema(
       type: String,
       required: [true, "Question is required"],
     },
+    questionExplanation: {
+      type: String,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -14,6 +17,7 @@ const questionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    createdAt: { type: Date, default: Date.now },
   },
   {
     toJSON: { virtuals: true },

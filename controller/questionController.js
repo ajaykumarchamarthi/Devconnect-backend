@@ -7,6 +7,7 @@ exports.postQuestion = catchAsync(async (req, res, next) => {
     question,
     user: userId,
     tag,
+    questionExplanation,
   });
   res.status(201).json({
     status: "success",

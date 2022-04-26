@@ -19,6 +19,7 @@ app.use(helmet());
 const userRouter = require("./routes/userRoutes");
 const questionRouter = require("./routes/questionRoutes");
 const answerRouter = require("./routes/answerRoutes");
+const jobRouter = require("./routes/jobRoutes");
 
 // CORS // Access-Control-Allow-Origin * (all users)
 
@@ -73,6 +74,7 @@ app.use(express.json({ limit: "10kb" }));
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/questions", questionRouter);
 app.use("/api/v1/answers", answerRouter);
+app.use("/api/v1/jobs", jobRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`));
