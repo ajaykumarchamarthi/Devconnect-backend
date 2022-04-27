@@ -52,7 +52,13 @@ app.use(
   })
 );
 
-app.options("*", cors());
+app.options(
+  "*",
+  cors({
+    origin: "https://devconnect-app.netlify.app",
+    credentials: true,
+  })
+);
 
 // Limit requests from same API
 const limiter = rateLimit({
