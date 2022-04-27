@@ -7,19 +7,10 @@ const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 
-const globalErrorHandler = require("./controller/errorController");
-const AppError = require("./utils/AppError");
-
 // Global Middlewares
 
 // Set Security HTTP headers
 app.use(helmet());
-
-// Importing Routes
-const userRouter = require("./routes/userRoutes");
-const questionRouter = require("./routes/questionRoutes");
-const answerRouter = require("./routes/answerRoutes");
-const jobRouter = require("./routes/jobRoutes");
 
 // CORS // Access-Control-Allow-Origin * (all users)
 
@@ -69,6 +60,15 @@ app.use(xss());
 
 // Body parser, reading data from from body into req.body
 app.use(express.json({ limit: "10kb" }));
+
+// Importing Routes
+const userRouter = require("./routes/userRoutes");
+const questionRouter = require("./routes/questionRoutes");
+const answerRouter = require("./routes/answerRoutes");
+const jobRouter = require("./routes/jobRoutes");
+
+const AppError = require("./utils/AppError");
+const globalErrorHandler = require("./controller/errorController");
 
 //Mounting Routes
 app.use("/api/v1/users", userRouter);
