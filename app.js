@@ -15,11 +15,6 @@ const globalErrorHandler = require("./controller/errorController");
 // Set Security HTTP headers
 app.use(helmet());
 
-// Development logging
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
-
 // Importing Routes
 const userRouter = require("./routes/userRoutes");
 const questionRouter = require("./routes/questionRoutes");
@@ -29,10 +24,7 @@ const jobRouter = require("./routes/jobRoutes");
 // CORS // Access-Control-Allow-Origin * (all users)
 
 app.use(function (req, res, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://devconnect-app.netlify.app"
-  );
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Methods",
@@ -47,18 +39,17 @@ app.use(function (req, res, next) {
 
 app.use(
   cors({
-    origin: "https://devconnect-app.netlify.app",
+    origin: "*",
     credentials: true,
   })
 );
 
-app.options(
-  "*",
-  cors({
-    origin: "https://devconnect-app.netlify.app",
-    credentials: true,
-  })
-);
+app.options("*", cors());
+
+// Development logging
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 // Limit requests from same API
 const limiter = rateLimit({
