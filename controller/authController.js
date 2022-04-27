@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
-const AppError = require("./../utils/appError");
+const AppError = require("./../utils/AppError");
 const Email = require("./../utils/email");
 const crypto = require("crypto");
 
@@ -56,21 +56,18 @@ exports.signup = catchAsync(async (req, res) => {
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  // Checking if email and password exists
+  // 1) Check if email and password exist
   if (!email || !password) {
     return next(new AppError("Please provide email and password!", 400));
   }
-
-  // Check if user exists && password is correct
+  // 2) Check if user exists && password is correct
   const user = await User.findOne({ email }).select("+password");
-  const correct = await user.correctPassword(password, user.password);
 
-  if (!user || !correct) {
+  if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
   }
 
-  // If Everything Ok, send token to the client
-
+  // 3) If everything ok, send token to client
   createSendToken(user, 200, res);
 });
 
@@ -129,9 +126,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   try {
     // 3) Send it to user's email
-    const resetURL = `${req.protocol}://${req.get(
-      "host"
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    const resetURL = `https://devconnect-app.netlify.app/resetpassword/${resetToken}`;
 
     await new Email(user, resetURL).sendPasswordReset();
 

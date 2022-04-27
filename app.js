@@ -7,7 +7,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const app = express();
 
-const AppError = require("./utils/appError");
+const AppError = require("./utils/AppError");
 const globalErrorHandler = require("./controller/errorController");
 
 // Global Middlewares
@@ -77,7 +77,7 @@ app.use("/api/v1/answers", answerRouter);
 app.use("/api/v1/jobs", jobRouter);
 
 app.all("*", (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server`));
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
 app.use(globalErrorHandler);
