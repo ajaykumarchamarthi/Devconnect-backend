@@ -19,10 +19,16 @@ exports.postAnswer = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllAnswers = catchAsync(async (req, res, next) => {
-  const answers = await Answer.find().populate({
-    path: "comments",
-    select: "comment user",
-  });
+  let query = Answer.find();
+
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(",").join(" ");
+    query = query.sort(sortBy);
+  } else {
+    query = query.sort("-createdAt");
+  }
+
+  const answers = await query;
 
   res.status(200).json({
     status: "Success",
@@ -36,6 +42,7 @@ exports.createLike = catchAsync(async (req, res) => {
   const { answerId, userId } = req.body;
   await Answer.findByIdAndUpdate(answerId, {
     $push: { likes: userId },
+    $inc: { numOfLikes: 1 },
     new: true,
   });
   res.status(201).json({
@@ -47,6 +54,7 @@ exports.createUnlike = catchAsync(async (req, res) => {
   const { answerId, userId } = req.body;
   await Answer.findByIdAndUpdate(answerId, {
     $pull: { likes: userId },
+    $inc: { numOfLikes: -1 },
   });
   res.status(201).json({
     status: "success",

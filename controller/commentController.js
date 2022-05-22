@@ -18,7 +18,9 @@ exports.createComment = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllComments = catchAsync(async (req, res, next) => {
-  const comments = await Comment.find();
+  let query = Comment.find();
+  query = query.sort("-createdAt");
+  const comments = await query;
 
   res.status(200).json({
     status: "success",

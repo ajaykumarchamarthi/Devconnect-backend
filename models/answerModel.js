@@ -24,6 +24,10 @@ const answerSchema = new mongoose.Schema(
         required: [true, "Like must belong to a user"],
       },
     ],
+    numOfLikes: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     toJSON: { virtuals: true },
