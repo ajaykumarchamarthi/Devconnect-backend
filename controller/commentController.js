@@ -2,10 +2,10 @@ const Comment = require("../models/commentModel");
 const catchAsync = require("./../utils/catchAsync");
 
 exports.createComment = catchAsync(async (req, res, next) => {
-  const { userId, comment, answerId } = req.body;
+  const { userId, comments, answerId } = req.body;
   const newComment = await Comment.create({
     user: userId,
-    comment,
+    comments,
     answer: answerId,
   });
 

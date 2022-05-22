@@ -28,7 +28,7 @@ exports.getAllAnswers = catchAsync(async (req, res, next) => {
     query = query.sort("-createdAt");
   }
 
-  const answers = await query;
+  const answers = await query.populate("comments");
 
   res.status(200).json({
     status: "Success",

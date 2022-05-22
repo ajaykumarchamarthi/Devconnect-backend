@@ -10,7 +10,7 @@ router.get("/getAllUsers", userController.getAllUsers);
 // Auth related routes
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
-router.post("/forgotPassword", authController.forgotPassword);
-router.post("/resetPassword", authController.resetPassword);
+router.post("/forgotPassword", authController.forgotpassword);
+router.post("/resetPassword", authController.resetpassword);
 
 module.exports = router;
