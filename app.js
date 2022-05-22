@@ -6,6 +6,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
+const AppError = require("./utils/appError");
 
 // Global Middlewares
 
@@ -67,7 +68,6 @@ const questionRouter = require("./routes/questionRoutes");
 const answerRouter = require("./routes/answerRoutes");
 const jobRouter = require("./routes/jobRoutes");
 
-const AppError = require("./utils/AppError");
 const globalErrorHandler = require("./controller/errorController");
 
 //Mounting Routes
@@ -75,6 +75,12 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/questions", questionRouter);
 app.use("/api/v1/answers", answerRouter);
 app.use("/api/v1/jobs", jobRouter);
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Welcome to Devconnect App",
+  });
+});
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
